@@ -155,8 +155,24 @@
             stars = [],
             i, j, varName, moduleName, fromIndex, firstChar, propRefs, imports;
 
-        //First find the "from" part.
+        //First find the "at" part.
         for (i = 0; i < spaceParts.length; i++) {
+
+            if(spaceParts[i] === 'at'){
+                fromIndex = i;
+
+                //Only handle the foo from 'foo', not module foo {}
+                if (type === 'module') {
+                    if (fromIndex > 0) {
+                        varName = spaceParts[fromIndex - 1];
+                        moduleName = cleanModuleName(spaceParts[fromIndex + 1]);
+                        modifiedText += 'var ' + varName + ' = ' + 'require(' + moduleName + ');\n';
+                        moduleMap[varName] = moduleName;
+                    }
+                }
+            }
+
+
             if (spaceParts[i] === 'from') {
                 fromIndex = i;
 

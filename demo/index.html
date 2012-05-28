@@ -18,15 +18,49 @@
 
 	  	<div class="row main">
 	  		<h3>Live demos</h3>
-	  		<p>It would appear that the current state of Require HM is using a specification of modules that is relatively old and deviates from current standards.</p>
+	  		<p>Many of the below are based off of the official module examples <a href="http://wiki.ecmascript.org/doku.php?id=harmony:modules_examples">here</a>, optimized to use Require HM.</p>
 	  		<p>
 	  		<h4>Alpha</h4>
-	  		<pre>module gamma from 'gamma';
-module epsilon from 'epsilon';
+	  		<pre>
 
+// All modules below themselves contain at minimum 
+// an example of a 'simple module'
+
+// Simple client
+module client from 'simpleclient';
+// This uses the module 'math', import {sum, pi} and alerts it
+// correctly
+
+// Convenience form
+import * from 'math';
+alert("convenience: 2π = " + sum(pi, pi));
+
+import * from 'one'; 
+export twoName;
+
+// Reflecting module instances as first-class objects
+module M = math;
+alert("first-class: 2π = " + sum(pi, pi));
+
+// 'Remote' modules
+module gamma at 'gamma';
+module epsilon at 'epsilon';
+
+// Modules for parameterization
+module DOMMunger at 'dommunger';
+module SafeDOM at 'safedom';
+module DOM at 'dom';
+
+
+// Local renaming
 import { name: gammaName } from gamma,
        { name: betaName, func: betaFunc, uniqueBeta } from 'beta';
 
+
+// Shared state
+module shared from 'sharedState';
+
+// Exports
 export gammaName;
 
 export betaName;
@@ -35,7 +69,25 @@ export betaFunc;
 
 export uniqueBeta;
 
-export epsilon;</pre>
+export epsilon;
+
+export shared;
+
+export DOM;
+
+export DOMMunger;
+
+export SafeDOM;
+
+
+// Doesnt handle: Cyclic dependencies
+// module testO at 'O';
+
+// Doesnt handle: Truly remote modules
+// module underscore at 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js';
+
+
+</pre>
 
 <h4>demo.js</h4>
 <pre>
@@ -48,6 +100,8 @@ require({
 require(["hm!alpha","lib/jquery"],
 function (alpha) {
 
+	console.log(alpha);
+
 	var html = "";
 
 	$('.gamma').append(alpha.gammaName);
@@ -56,6 +110,16 @@ function (alpha) {
 	$('.epsilon').append(JSON.stringify(alpha.epsilon));
 	$('.alpha').append(JSON.stringify(alpha));
 
+	// Shared state testing
+	alpha.shared.increment();
+	alpha.shared.increment();
+	$('.sharedState').append(alpha.shared.current());
+
+	// Parameterization
+	var safeDOM = alpha.SafeDOM;
+	var instance = alpha.DOMMunger.make(safeDOM);
+	instance.munge();
+
 });
 </pre>
 	  		<p class="alpha"><strong>All of top-level alpha module exported by the above:</strong> </p>
@@ -63,7 +127,8 @@ function (alpha) {
 			<p class="beta"><strong>Alpha:Variable export from inline module beta:</strong> </p>
 			<p class="beta2"><strong>Alpha:Function export from inline module beta:</strong> </p>
 			<p class="epsilon"><strong>Alpha:Module export for epsilon:</strong> </p>
-			
+			<p class="sharedState"><strong>Alpha: Shared state should be 2:</strong> </p>
+			<p class="param"><strong>Alpha: Parametization:</strong> </p>
 		</p>
 		</div>
 
