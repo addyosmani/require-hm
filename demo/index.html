@@ -6,6 +6,7 @@
     <script type="text/javascript" src="lib/require.js"></script>
     <script type="text/javascript" src="demo.js"></script>
 
+
 </head>
 <body>
 <div class="container">
@@ -22,12 +23,11 @@
 	  		<p>
 	  		<h4>Alpha</h4>
 	  		<pre>
-
 // All modules below themselves contain at minimum 
 // an example of a 'simple module'
 
 // Simple client
-module client from 'simpleclient';
+module client at 'simpleclient';
 // This uses the module 'math', import {sum, pi} and alerts it
 // correctly
 
@@ -86,7 +86,15 @@ export SafeDOM;
 // Doesnt handle: Truly remote modules
 // module underscore at 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js';
 
-
+// Doesnt handle: Nested modules (but by choice as using AMD)
+/*
+module widgets {
+    export module button { ... }
+    export module alert { ... }
+    export module textarea { ... }
+    ...
+}
+*/
 </pre>
 
 <h4>demo.js</h4>

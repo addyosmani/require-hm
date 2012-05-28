@@ -3,7 +3,7 @@
 // an example of a 'simple module'
 
 // Simple client
-module client from 'simpleclient';
+module client at 'simpleclient';
 // This uses the module 'math', import {sum, pi} and alerts it
 // correctly
 
@@ -50,7 +50,9 @@ export epsilon;
 export shared;
 
 export DOM;
+
 export DOMMunger;
+
 export SafeDOM;
 
 
