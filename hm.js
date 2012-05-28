@@ -291,7 +291,7 @@
         //?? export x (not with var or named function) means setting export
         //value for whole module?
 
-        console.log("INPUT:\n" + text + "\n\nTRANSFORMED:\n" + transformedText);
+        //console.log("INPUT:\n" + text + "\n\nTRANSFORMED:\n" + transformedText);
         return {
             text: "define(function (require, exports, module) {\n" +
                   transformedText +
