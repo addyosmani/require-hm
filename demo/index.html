@@ -2,11 +2,91 @@
 <html>
 <head>
     <title>require-hm Export Test</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
     <script type="text/javascript" src="lib/require.js"></script>
     <script type="text/javascript" src="demo.js"></script>
+
 </head>
 <body>
-    <h1>require-hm ES6 Module, Import, Export demo</h1>
-    <p>Demonstrates loading a module and using imports and exports to utilize and expose functionality from other modules.</p>
+<div class="container">
+	<div class="row-fluid">
+		<p>&nbsp;</p>
+
+    	<div class="page-header">
+   			<h1>Require HM ES6/AMD Modules Demo<small> Testing Module syntax, import, exports.</small></h1>
+  		</div>
+
+	  	<div class="row main">
+	  		<h3>Live demos</h3>
+	  		<p>It would appear that the current state of Require HM is using a specification of modules that is relatively old and deviates from current standards.</p>
+	  		<p>
+	  		<h4>Alpha</h4>
+	  		<pre>module gamma from 'gamma';
+module epsilon from 'epsilon';
+
+import { name: gammaName } from gamma,
+       { name: betaName, func: betaFunc, uniqueBeta } from 'beta';
+
+export gammaName;
+
+export betaName;
+
+export betaFunc;
+
+export uniqueBeta;
+
+export epsilon;</pre>
+
+<h4>demo.js</h4>
+<pre>
+require({
+    paths: {
+        hm: '../../hm'
+    }
+});
+
+require(["hm!alpha","lib/jquery"],
+function (alpha) {
+
+	var html = "";
+
+	$('.gamma').append(alpha.gammaName);
+	$('.beta').append(alpha.betaName);
+	$('.beta2').append(alpha.betaFunc());
+	$('.epsilon').append(JSON.stringify(alpha.epsilon));
+	$('.alpha').append(JSON.stringify(alpha));
+
+});
+</pre>
+	  		<p class="alpha"><strong>All of top-level alpha module exported by the above:</strong> </p>
+			<p class="gamma"><strong>Alpha:Variable export from module gamma:</strong> </p>
+			<p class="beta"><strong>Alpha:Variable export from inline module beta:</strong> </p>
+			<p class="beta2"><strong>Alpha:Function export from inline module beta:</strong> </p>
+			<p class="epsilon"><strong>Alpha:Module export for epsilon:</strong> </p>
+			
+		</p>
+		</div>
+
+		
+		<div class="row">
+			<h3>Syntax notes</h3>
+			<p>This project doesn't support the following nested module syntax, instead opting for a similar variation pulled in via AMD/RequireJS.</p>
+<pre>
+module widgets {
+    export module button { ... }
+    export module alert { ... }
+    export module textarea { ... }
+    ...
+}</pre>
+<p>i.e one would define the above as the below with a filename of say, widgets.hm:</p>
+<pre>
+export module button { ... }
+export module alert { ... }
+export module textarea { ... }
+</pre>		</div>
+	</div>
+</div>
 </body>
 </html>
+
+
