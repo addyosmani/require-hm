@@ -37,11 +37,115 @@ It is possible to take this code and go further with a real parser, and
 this code may expand for that purpose, but for now, the regexp
 approach allows a quicker proof of concept.
 
-## Supported APIs
+## Supported
 
-TODO
-module math {} NOT supported
 
-string resolution: .js and mod/name
-Mention .hm for the files that are harmony files.
-Inclusion and exclusion lists?
+Note that literal module syntax is not used here (e.g `module moduleName {}`), instead opting for the module body for each module file. This isn't an issue however as Require HM will still allow modules to be imported and used as normal.
+
+A simple module
+
+```
+// math.hm
+export function sum(x, y) {
+    return x + y;
+}
+export var pi = 3.141593;
+```
+
+A simple client
+
+```
+// we can import in script code, not just inside a module
+import {sum, pi} from 'math';
+ 
+alert("2π = " + sum(pi, pi));
+```
+
+Convenience form
+
+```
+// import everything
+import * from 'math';
+ 
+alert("2π = " + sum(pi, pi));
+```
+
+Reflecting module instances as first-class objects
+
+```
+// a static module reference
+module M = math;
+ 
+// reify M as an immutable "module instance object"
+alert("2π = " + M.sum(M.pi, M.pi));
+```
+
+Local renaming
+
+```
+import { name: drawShape } from shape;
+import { name: drawGun } from cowboy;
+```
+
+Remote modules on the web (as long as they don't break Cross-Origin policies)
+
+```
+// loading from a URL
+module JSON at 'gamma';
+ 
+alert(JSON.stringify(gamma));
+```
+
+Remote modules on the web (2)
+
+```
+// loading from a URL providing sub-modules
+module YUI at 'yui3';
+ 
+alert(YUI.dom.Color.toHex(“blue”));
+```
+
+Parameterization
+
+```
+// DOMMunger.hm
+// parameterized by a DOM implementation
+export function make(domAPI) {
+    return {
+        munge: function(doc) {
+            ...
+            domAPI.alert('hi!');
+            ...
+        }
+    };
+}
+```
+
+```
+// SafeDOM.hm
+import * from DOM;
+
+export var document = {
+    write: function(txt) {
+        alert('I\'m sorry, Dave, I\'m afraid I can\'t do that...')
+    },
+    ...
+};
+```
+
+```
+// Usage:
+var instance = DOMMunger.make(SafeDOM);
+instance.munge(...);
+```
+
+Shared state
+
+```
+// Counter.hm
+var n = 0;
+export function increment() { return n++ }
+export function current() { return n }
+```
+
+
