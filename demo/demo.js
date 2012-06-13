@@ -2,7 +2,7 @@
 
 require({
     paths: {
-        hm: '../../hm'
+        hm: '../../../dist/hm'
     }
 });
 

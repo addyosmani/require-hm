@@ -4,7 +4,7 @@ A simulation of some APIs that are proposed for ECMAScript Harmony for
 JavaScript modules, but done as a loader plugin that works with
 [RequireJS](http://requirejs.org), and other AMD loaders that support
 the [loader plugin API](http://requirejs.org/docs/plugins.html) supported by
-RequireJS.
+RequireJS. See `dist/hm.js`.
 
 The APIs are taken from here:
 
@@ -37,8 +37,7 @@ It is possible to take this code and go further with a real parser, and
 this code may expand for that purpose, but for now, the regexp
 approach allows a quicker proof of concept.
 
-## Supported
-
+## Supportedå
 
 Note that literal module syntax is not used here (e.g `module moduleName {}`), instead opting for the module body for each module file. This isn't an issue however as Require HM will still allow modules to be imported and used as normal.
 
